@@ -105,6 +105,7 @@ public class Client {
         System.out.println("Total throughput in requests per second: " + throughput);
         bufferedWriter.close();
 
+
         // calculate mean
         double totalResponseTime = 0;
         for (Double latency: responseTimes) {

@@ -115,6 +115,7 @@ public class SkierThread implements Runnable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         this.totalSuccessfulPosts.addAndGet(localTotalSuccess);
         this.totalFailedPosts.addAndGet(localFailedPosts);
 
