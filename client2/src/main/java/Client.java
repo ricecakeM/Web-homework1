@@ -52,7 +52,7 @@ public class Client {
             SkierThread skierThread = new SkierThread(startID, endID, startTime, endTime, numRuns,
                     numSkiers, numThreads / 4, numLifts, 5, SEASON_ID, DAY_ID,
                     numPostRequests, numWaitedThreads, privateLatch1, sharedLatch, responseTimes,
-                    totalSuccessfulPosts, totalFailedPosts);
+                    totalSuccessfulPosts, totalFailedPosts, bufferedWriter);
             Thread thread = new Thread(skierThread);
             thread.start();
         }
@@ -71,7 +71,7 @@ public class Client {
             SkierThread skierThread = new SkierThread(startID, endID, startTime, endTime, numRuns,
                     numSkiers, numThreads, numLifts, 5, SEASON_ID, DAY_ID, numPostRequests,
                     numWaitedThreads, privateLatch2, sharedLatch, responseTimes, totalSuccessfulPosts,
-                    totalFailedPosts);
+                    totalFailedPosts, bufferedWriter);
             Thread thread = new Thread(skierThread);
             thread.start();
         }
@@ -90,7 +90,7 @@ public class Client {
             SkierThread skierThread = new SkierThread(startID, endID, startTime, endTime, numRuns,
                     numSkiers, numThreads / 10, numLifts, 5, SEASON_ID, DAY_ID,
                     numPostRequests, numWaitedThreads, privateLatch3, sharedLatch, responseTimes,
-                    totalSuccessfulPosts, totalFailedPosts);
+                    totalSuccessfulPosts, totalFailedPosts, bufferedWriter);
             Thread thread = new Thread(skierThread);
             thread.start();
         }

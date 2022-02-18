@@ -37,7 +37,7 @@ public class SkierThread implements Runnable {
                        int numSkiers, int numThreads, int numLifts, int resortID, String seasonID,
                        String dayID, int numPostRequests, int numWaitedThreads, CountDownLatch privateLatch,
                        CountDownLatch sharedLatch, List<Double> responseTimes, AtomicInteger totalSuccessfulPosts,
-                       AtomicInteger totalFailedPosts) {
+                       AtomicInteger totalFailedPosts, BufferedWriter bufferedWriter) {
         this.startID = startID;
         this.endID = endID;
         this.startTime = startTime;
@@ -55,6 +55,8 @@ public class SkierThread implements Runnable {
         this.sharedLatch = sharedLatch;
         this.responseTimes = responseTimes;
         this.bufferedWriter = bufferedWriter;
+        this.totalSuccessfulPosts = totalSuccessfulPosts;
+        this.totalFailedPosts = totalFailedPosts;
     }
 
     @Override
@@ -67,6 +69,7 @@ public class SkierThread implements Runnable {
 
         int localTotalSuccess = 0;
         int localFailedPosts = 0;
+        StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < this.numPostRequests; i++) {
             LiftRide liftRide = new LiftRide();
             liftRide.setTime(ThreadLocalRandom.current().nextInt(this.endTime - this.startTime) + this.startTime);
@@ -79,7 +82,8 @@ public class SkierThread implements Runnable {
                 while (true) {
                     count += 1;
                     // send post request
-                    ApiResponse response = apiInstance.getSkierDayVerticalWithHttpInfo(this.resortID, this.seasonID, this.dayID, skierID);
+                    ApiResponse response = apiInstance.writeNewLiftRideWithHttpInfo(liftRide, this.resortID,
+                            this.seasonID, this.dayID, skierID);
                     statusCode = response.getStatusCode();
                     if (statusCode == 201) {
                         localTotalSuccess += 1;
@@ -102,13 +106,14 @@ public class SkierThread implements Runnable {
             }
             double latency = endTime.getTime() - startTime.getTime();
             this.responseTimes.add(latency);
-            String output = startTime + ", POST, " + latency + ", " + statusCode + "\n";
-            try {
-                // Write output to CSV file
-                bufferedWriter.write(output);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            stringBuilder.append(startTime + ", POST, " + latency + ", " + statusCode + "\n");
+
+        }
+        try {
+            // Write output to CSV file
+            bufferedWriter.write(stringBuilder.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         this.totalSuccessfulPosts.addAndGet(localTotalSuccess);
         this.totalFailedPosts.addAndGet(localFailedPosts);

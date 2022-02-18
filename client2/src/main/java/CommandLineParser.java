@@ -12,7 +12,7 @@ public class CommandLineParser {
     private Integer numSkiers = 0;
     private Integer numLifts = 0;
     private Integer numRuns = 0;
-    private Integer serverAddress;
+    private String serverAddress;
 
     public CommandLineParser() {}
 
@@ -51,7 +51,7 @@ public class CommandLineParser {
                 return false;
             }
 
-            this.serverAddress = Integer.parseInt(args[4]);
+            this.serverAddress = args[4];
         } catch (final NumberFormatException e) {
             System.out.println("Cannot parse arguments correctly.");
             e.printStackTrace();
@@ -76,7 +76,7 @@ public class CommandLineParser {
         return this.numRuns;
     }
 
-    public int getServerAddress() {
+    public String getServerAddress() {
         return this.serverAddress;
     }
 }
