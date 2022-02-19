@@ -98,11 +98,11 @@ public class Client {
         sharedLatch.await();
         long end = System.currentTimeMillis();
         long runTime = end - start;
-        double throughput = (totalSuccessfulPosts.get() + totalFailedPosts.get()) / runTime;
+//        double throughput = (totalSuccessfulPosts.get() + totalFailedPosts.get()) / runTime;
         System.out.println("Number of successful requests sent: " + totalSuccessfulPosts);
         System.out.println("Number of unsuccessful requests sent: " + totalFailedPosts);
         System.out.println("Total run time (wall time): " + runTime);
-        System.out.println("Total throughput in requests per second: " + throughput);
+//        System.out.println("Total throughput in requests per second: " + throughput);
         bufferedWriter.close();
 
 
@@ -127,7 +127,7 @@ public class Client {
         System.out.println("Median response time: " + medianResponseTime);
 
         // calculate throughput: total number of requests/wall time (requests/second)
-        System.out.println("Throughput: " + 1000 * totalSuccessfulPosts.intValue() / runTime);
+        System.out.println("Total throughput in requests per second: " + 1000L * totalSuccessfulPosts.intValue() / runTime);
 
         // 99th percentile
         double percentile99 = responseTimes.get((int) Math.ceil(responseTimes.size() * 0.99) - 1);
